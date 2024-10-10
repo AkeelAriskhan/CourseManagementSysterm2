@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,20 +29,27 @@ namespace CourseManagementSysterm2
         }
         public void ReadCourses()
         {
-            using (var connection = new SqlConnection(connnectionsting))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = @"select * from Courses ";
-                using (var reader = command.ExecuteReader())
+                using (var connection = new SqlConnection(connnectionsting))
                 {
-                    Console.WriteLine("Courses");
-                    while (reader.Read())
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"select * from Courses ";
+                    using (var reader = command.ExecuteReader())
                     {
-                        Console.WriteLine($"CourseId:{reader.GetInt32(0)} Title:{reader.GetString(1)} Duration:{reader.GetString(2)} Price{reader.GetDecimal(3)}");
-                    }
+                        Console.WriteLine("Courses");
+                        while (reader.Read())
+                        {
+                            Console.WriteLine($"CourseId:{reader.GetInt32(0)} Title:{reader.GetString(1)} Duration:{reader.GetString(2)} Price{reader.GetDecimal(3)}");
+                        }
 
+                    }
                 }
+            }
+            catch (Exception error) 
+            {
+               Console.WriteLine (error.Message);
             }
         }
         public void Getcoursebyid(int id)
@@ -76,41 +84,56 @@ namespace CourseManagementSysterm2
 
         public void UpdateCourse(int CourseId, string Title, string Duration, decimal Price)
         {
-            using (var connection = new SqlConnection(connnectionsting))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = @"UPDATE Courses SET Title=@Title ,Duration=@Duration ,Price=@Price where CourseId=@CourseId ";
-                command.Parameters.AddWithValue("@Title", Title);
-                command.Parameters.AddWithValue("@Duration", Duration);
-                command.Parameters.AddWithValue("@Price", Price);
-                command.Parameters.AddWithValue("@CourseId", CourseId);
-                command.ExecuteNonQuery();
+                using (var connection = new SqlConnection(connnectionsting))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"UPDATE Courses SET Title=@Title ,Duration=@Duration ,Price=@Price where CourseId=@CourseId ";
+                    command.Parameters.AddWithValue("@Title", Title);
+                    command.Parameters.AddWithValue("@Duration", Duration);
+                    command.Parameters.AddWithValue("@Price", Price);
+                    command.Parameters.AddWithValue("@CourseId", CourseId);
+                    command.ExecuteNonQuery();
 
+                }
+                Console.WriteLine("Course updated Sucsufully");
             }
-            Console.WriteLine("Course updated Sucsufully");
+            catch (Exception  error) 
+            {
+                Console.WriteLine(error.Message);
+            }
         }
         public void DeleteCourse(int CourseId)
         {
-            using (var connection = new SqlConnection(connnectionsting))
+            try
             {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = @"DELETE FROM Courses where CourseId=@CourseId";
-                command.Parameters.AddWithValue("@CourseId", CourseId);
-                var rowsafected = command.ExecuteNonQuery();
-                if (rowsafected > 0)
+                using (var connection = new SqlConnection(connnectionsting))
                 {
-                    Console.WriteLine("course deleted Succsesfuly");
-                }
-                else
-                {
-                    Console.WriteLine("Course not found");
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"DELETE FROM Courses where CourseId=@CourseId";
+                    command.Parameters.AddWithValue("@CourseId", CourseId);
+                    var rowsafected = command.ExecuteNonQuery();
+                    if (rowsafected > 0)
+                    {
+                        Console.WriteLine("course deleted Succsesfuly");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Course not found");
+
+                    }
+
 
                 }
-
-                   
             }
+            catch (Exception error) 
+            {
+                Console.WriteLine(error.Message);
+            }
+            
         }
         public string CapitalizeTitle(string title)
         {
