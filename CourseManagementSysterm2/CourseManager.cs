@@ -44,7 +44,7 @@ namespace CourseManagementSysterm2
             }
             else
             {
-                Console.WriteLine("course not foud");
+                Console.WriteLine("course not found");
             }
         }
         public void DeleteCourse(int CourseId)

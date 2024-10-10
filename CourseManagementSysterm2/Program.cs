@@ -30,7 +30,7 @@ namespace CourseManagementSysterm2
                   case 1:
                         Console.Clear();
                         Console.Write("Enter a Course Title ");
-                         var title=Console.ReadLine();
+                         var title=CourseRepository.CapitalizeTitle(Console.ReadLine());
                         Console.Write("Enter a Course Duration ");
                         var Duration = Console.ReadLine();
                       
@@ -43,7 +43,8 @@ namespace CourseManagementSysterm2
                         break;
                   case 2:
                         Console.Clear();
-                        coursemanager.ReadCourses();
+                        //coursemanager.ReadCourses();
+                        CourseRepository.ReadCourses();
                         break;
 
                   case 3:
@@ -51,19 +52,22 @@ namespace CourseManagementSysterm2
                         Console.Write("Enter a Course Id ");
                         var courseid1 = Convert.ToInt32(Console.ReadLine());
                         Console.Write("Enter a Course Title ");
-                        var title1 = Console.ReadLine();
+                        var title1 = CourseRepository.CapitalizeTitle(Console.ReadLine());
+
                         Console.Write("Enter a Course Duration ");
                         var Duration1 = Console.ReadLine();
 
                         var Price1 = coursemanager.ValidateCoursePrice();
-                        coursemanager.UpdateCourse(courseid1, title1, Duration1, Price1);
+                        //coursemanager.UpdateCourse(courseid1, title1, Duration1, Price1);
+                        CourseRepository.UpdateCourse(courseid1 , title1, Duration1,Price1);
                         break;
 
                     case 4:
                         Console.Clear();
                         Console.Write("Enter a Course Id ");
                         var courseid2 = Convert.ToInt32(Console.ReadLine());
-                        coursemanager.DeleteCourse(courseid2);
+                        //coursemanager.DeleteCourse(courseid2);
+                        CourseRepository.DeleteCourse(courseid2);
                         break;
                    case 5:
                         exit = false;
